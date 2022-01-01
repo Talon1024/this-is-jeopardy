@@ -1,0 +1,33 @@
+words,col,exact,case_sensitive,filter_function
+King,,,,remove_text_garbage
+King,,False,,remove_text_garbage
+King,,,True,remove_text_garbage
+Tree,,True,,remove_text_garbage
+Empire State Building,,True,,remove_text_garbage
+"""Empire State Building""",,False,,remove_text_garbage
+God,,True,True,remove_text_garbage
+TV Series,,True,,remove_text_garbage
+Television Series,,True,,remove_text_garbage
+Revolution,,True,,remove_text_garbage
+Groups,,True,,remove_text_garbage
+Entertainment,,True,,remove_text_garbage
+Wash,,False,,remove_text_garbage
+Bush,,False,,remove_text_garbage
+Bush,,True,True,remove_text_garbage
+Clinton,,True,,remove_text_garbage
+CEO,,True,,remove_text_garbage
+CFO,,True,,remove_text_garbage
+Video Game,,False,,remove_text_garbage
+New England,,False,,remove_text_garbage
+King England,,False,,remove_text_garbage
+Uganda,,False,,remove_text_garbage
+Rwanda,,False,,remove_text_garbage
+Country,,False,,remove_text_garbage
+Politics,,False,,remove_text_garbage
+Fashion,,False,,remove_text_garbage
+Literature,,False,,remove_text_garbage
+Health,,False,,remove_text_garbage
+Secur,,False,False,remove_text_garbage
+Inject,,False,,remove_text_garbage
+Computer,,False,,remove_text_garbage
+Tennis,,False,,remove_text_garbage
