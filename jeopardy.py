@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
 import argparse
-import datetime
 import pandas as pd
-import re
 # from sys import exit
 from sys import stdin
 from import_export import get_inputs
+from processing import *
 
 pd.set_option('display.max_colwidth', -1)
 
@@ -23,12 +22,13 @@ def apply_inputs(data, frame, function, self=None):
         bool_values = {"True": True, "False": False}
         if value in bool_values:
             return bool_values[value]
-        elif value.lower() != "infinity":
+        elif value.find("-") == 0 and all(map(str.isdigit, value[1:])):
+            return int(value, 10)
+        elif all(map(str.isdigit, value)):
+            return int(value, 10)
+                                    # str.maketrans(".-e", "012")
+        elif all(map(str.isdigit, value.translate({46: 48, 45: 49, 101: 50}))):
             return float(value)
-        elif value.find("-") == 0:
-            return int(value, 10)
-        elif all(str.isdigit, value):
-            return int(value, 10)
         return value
 
     def resolve_function(name, self):
@@ -40,7 +40,7 @@ def apply_inputs(data, frame, function, self=None):
         try:
             return vars()[name]
         except KeyError:
-            return globals()[name]
+            return globals.get(name, None)
 
     resolver_callbacks = {
         "filter_function": resolve_function,
@@ -89,50 +89,6 @@ def df_word_search(df, *words, col="question", exact=True, case_sensitive=False,
 # resser = df_word_search(jeopardy, "King", "England", exact=False, case_sensitive=True)
 # print(jeopardy[resser].question.count())
 
-# 3.3
-def remove_text_garbage(
-        text, remove_apos=True, remove_parens=True, remove_punct=True):
-    if remove_parens:
-        text = re.sub(r"\(([^)]*)\)", r"\1", text)
-    if remove_apos:
-        text = re.sub(r"([^\s']+)'[\S]+", r"\1", text)
-    if remove_punct:
-        text = text.replace(",", "")
-        text = text.replace(".", "")
-        text = text.replace("?", "")
-    return text
-
-# 4.1
-# When I originally wrote my word search functions, I made them split the
-# question sentence into each word, and then turned the set of words into a set.
-# Then, I turned the list of words to search for into a set, and checked whether
-# the words to search for were a subset of the words in the question sentence
-# resser = df_word_search(jeopardy, "way", "hell", exact=False)
-# print(jeopardy[resser].question.count())
-# resser = df_word_search(jeopardy, "blue"] exact=False)
-# print(jeopardy[resser].question.count())
-# resser = df_word_search(jeopardy, "poo", "pool", exact=False)
-# print(jeopardy[resser].question.count())
-# resser = df_word_search(jeopardy, "they", "there", exact=False)
-# print(jeopardy[resser].question.count())
-# resser = df_word_search(jeopardy, "'s", exact=False)
-# print(jeopardy[resser].question.count())
-# resser = df_word_search(jeopardy, "'re", exact=False)
-# print(jeopardy[resser].question.count())
-# resser = df_word_search(jeopardy, "'ve", exact=False)
-# print(jeopardy[resser].question.count())
-
-# 5.1
-def money_to_float(money):
-    if money is None or money == "None":
-        return 0.0
-    if money.startswith("$"):
-        money = money[1:]
-    if money.find(",") >= 0:
-        monies = money.split(",")
-        money = "".join(monies)
-    return float(money)
-
 # 5.2
 def average_value_for(df, *words, printout=True, **kwargs):
     resser = df_word_search(df, *words, **kwargs)
@@ -157,14 +113,6 @@ def unique_answers(df, *words, **search_args):
     return answer_count
 
 # apply_inputs(input_data, jeopardy, unique_answers)
-
-# 7.1
-def to_date(date):
-    date_things = date.split("-")
-    #if len(date_things) < 3:
-        #print("Date:", date)
-    #date_things += ["1"] * (3 - len(date_things))
-    return datetime.date(*map(int, date_things))
 
 # resser = df_word_search(jeopardy, "Computer")
 # results = (*jeopardy[resser].groupby("air_year").count()["question"].items(),)
