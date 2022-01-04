@@ -114,10 +114,6 @@ def unique_answers(df, *words, **search_args):
 
 # apply_inputs(input_data, jeopardy, unique_answers)
 
-# resser = df_word_search(jeopardy, "Computer")
-# results = (*jeopardy[resser].groupby("air_year").count()["question"].items(),)
-# print(results)
-
 def run_analysis():
     # 3.3
     # resser means "Result series"
