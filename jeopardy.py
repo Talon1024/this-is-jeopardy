@@ -33,14 +33,12 @@ def apply_inputs(data, frame, function, self=None):
 
     def resolve_function(name, self):
         if self is not None:
-            try:
-                return vars(self)[name]
-            except KeyError:
-                pass
-        try:
-            return vars()[name]
-        except KeyError:
-            return globals.get(name, None)
+            if isinstance(self, dict):
+                f = self.get(name)
+            else:
+                f = vars(self).get(name)
+            if f is not None: return f
+        return vars().get(name, globals().get(name, None))
 
     resolver_callbacks = {
         "filter_function": resolve_function,
