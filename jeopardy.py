@@ -5,6 +5,7 @@ import pandas as pd
 from sys import stdin
 from import_export import get_inputs
 from processing import *
+from analysis import *
 
 pd.set_option('display.max_colwidth', -1)
 
@@ -52,65 +53,11 @@ def apply_inputs(data, frame, function, self=None):
         results.append(function(frame, *datum.words, **my_opts))
     return results
 
-
 # Testing
 # print(remove_text_garbage("Kevin's behaviour (bare-bones in the catacombs) would've been too overwhelming (why?) had he not..."))
 
-# 3.2
-def s_word_search(s, words, exact=True, case_sensitive=False, filter_function=None):
-    if not case_sensitive:
-        words = list(map(str.lower, words))
-    if filter_function is not None:
-        words = (*map(filter_function, words),)
-    # print("s_word_search words {!r}".format(words))
-    def search_row(row):
-        nonlocal words
-        if not case_sensitive:
-            row = row.lower()
-        if filter_function is not None:
-            row = filter_function(row)
-        # print("s_word_search row {!r}".format(row))
-        if exact:
-            words = set(words)
-            row_words = set(row.split())
-            return words <= row_words
-        row_contains = lambda word: word in row
-        return all(map(row_contains, words))
-    return s.apply(search_row)
-# 3.1
-def df_word_search(df, *words, col="question", exact=True, case_sensitive=False, filter_function=None):
-    "Search the given column of a DataFrame for the given words, and return the series of matches"
-    # print("df_word_search words", words)
-    return s_word_search(df[col], words, exact, case_sensitive, filter_function)
-# 3.3
-# resser means "Result series"
-# resser = df_word_search(jeopardy, "King", "England", exact=False, case_sensitive=True)
-# print(jeopardy[resser].question.count())
-
-# 5.2
-def average_value_for(df, *words, printout=True, **kwargs):
-    resser = df_word_search(df, *words, **kwargs)
-    result = df[resser].value_float.mean()
-    result_count = df[resser].value_float.count()
-    if printout:
-        word_string = '"' + " ".join(words) + '"'
-        print("Average value for", result_count, "questions containing",
-              word_string, kwargs, ':', result)
-    return result
-
-# apply_inputs(input_data, jeopardy, average_value_for)
-
-# 6
-def unique_answers(df, *words, **search_args):
-    resser = df_word_search(df, *words, **search_args)
-    answer_count = len(df[resser].groupby("answer").groups)
-    question_count = df[resser].question.count()
-    get_words = lambda words: '"' + " ".join(words) + '":'
-    print("Number of unique answers for", question_count,
-          "questions matching", get_words(words), answer_count)
-    return answer_count
-
-# apply_inputs(input_data, jeopardy, unique_answers)
+# 3.1/3.2: See search.py
+# 5.2 and 6: See analysis.py
 
 def run_analysis():
     # 3.3
