@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 import argparse
 import pandas as pd
-# from sys import exit
-from sys import stdin
+from sys import exit, stdin
 from import_export import get_inputs
 from processing import *
 from analysis import *
@@ -77,7 +76,12 @@ if __name__ == "__main__":
     print("Loading. Please wait...")
     input_data = get_inputs()
     # 2
-    jeopardy = pd.read_csv("jeopardy.csv")
+    try:
+        jeopardy = pd.read_csv("jeopardy.csv", memory_map=True)
+    except Exception:
+        print("jeopardy.csv not found! Get it from Codecademy (Data Analyst "
+              "course)")
+        exit(1)
     jeopardy.rename(columns={
     "Show Number": "show_number",
     " Air Date": "air_date",
@@ -97,8 +101,10 @@ if __name__ == "__main__":
             "J E O P A R D Y\n"
             "(Talon1024's Data Analyst project)\n"
             "1. Word search\n"
-            "2. Calculate average value for questions containing the given words\n"
-            "3. Get number of unique answers for questions containing the given words\n"
+            "2. Calculate average value for questions containing the given "
+            "words\n"
+            "3. Get number of unique answers for questions containing the "
+            "given words\n"
             "4. Run the built-in scripts and quit\n"
             "5. Export input data to Python list\n"
             "6. PLAY\n"

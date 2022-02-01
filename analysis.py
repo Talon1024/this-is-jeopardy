@@ -23,3 +23,8 @@ def unique_answers(df, *words, **search_args):
     print("Number of unique answers for", question_count,
           "questions matching", get_words(words), answer_count)
     return answer_count
+
+def play(df):
+    # Get 7 categories
+    # Get 7 different prices
+    pass
