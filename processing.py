@@ -52,3 +52,18 @@ def to_date(date):
         #print("Date:", date)
     #date_things += ["1"] * (3 - len(date_things))
     return datetime.date(*map(int, date_things))
+
+# Helper - set up Jeopardy DataFrame for analysis
+def preprocess(jeopardy):
+    jeopardy.rename(columns={
+    "Show Number": "show_number",
+    " Air Date": "air_date",
+    " Round": "round",
+    " Category": "category",
+    " Value": "value",
+    " Question": "question",
+    " Answer": "answer"
+    }, inplace=True)
+    jeopardy["value_float"] = jeopardy.value.apply(money_to_float)
+    jeopardy.air_date = jeopardy.air_date.apply(to_date)
+    jeopardy["air_year"] = jeopardy.air_date.apply(lambda d: d.year)

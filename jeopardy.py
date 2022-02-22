@@ -82,18 +82,7 @@ if __name__ == "__main__":
         print("jeopardy.csv not found! Get it from Codecademy (Data Analyst "
               "course)")
         exit(1)
-    jeopardy.rename(columns={
-    "Show Number": "show_number",
-    " Air Date": "air_date",
-    " Round": "round",
-    " Category": "category",
-    " Value": "value",
-    " Question": "question",
-    " Answer": "answer"
-    }, inplace=True)
-    jeopardy["value_float"] = jeopardy.value.apply(money_to_float)
-    jeopardy.air_date = jeopardy.air_date.apply(to_date)
-    jeopardy["air_year"] = jeopardy.air_date.apply(lambda d: d.year)
+    preprocess(jeopardy)
     if stdin.isatty():
         funcs = {"4": run_analysis}
         print(
