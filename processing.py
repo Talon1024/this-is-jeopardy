@@ -12,6 +12,8 @@ def remove_text_garbage(
         text = text.replace(",", "")
         text = text.replace(".", "")
         text = text.replace("?", "")
+    if text.startswith('"') and text.endswith('"'):
+        text = text[1:-1]
     return text
 
 # 4.1
