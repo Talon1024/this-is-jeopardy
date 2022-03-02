@@ -2,10 +2,12 @@
 import argparse
 import pandas as pd
 from sys import exit, stdin
-from import_export import get_inputs
+from import_export import *
 from processing import *
 from analysis import *
+from search import *
 import play
+import shlex
 
 pd.set_option('display.max_colwidth', -1)
 
@@ -76,6 +78,30 @@ def run_analysis():
 def play_jeopardy():
     return play.play(jeopardy)
 
+def interactive_word_search():
+    choice = shlex.split(input("Search for: "))
+    resser = df_word_search(jeopardy, *choice)
+
+def interactive_average():
+    choice = shlex.split(input("Search for: "))
+    resser = average_value_for(jeopardy, *choice)
+
+def interactive_unique_answers():
+    choice = shlex.split(input("Search for: "))
+    resser = unique_answers(jeopardy, *choice)
+
+def interactive_export_inputs():
+    choice = input("Filename: ")
+    if choice == "":
+        choice = None
+    export_inputs_copypasta(input_data, choice)
+
+def interactive_export_csv():
+    choice = input("Filename: ")
+    if choice == "":
+        choice = None
+    export_inputs_csv(input_data, choice)
+
 if __name__ == "__main__":
     print("Loading. Please wait...")
     input_data = get_inputs()
@@ -89,13 +115,18 @@ if __name__ == "__main__":
     preprocess(jeopardy)
     if stdin.isatty():
         funcs = {
+            "1": interactive_word_search,
+            "2": interactive_average,
+            "3": interactive_unique_answers,
             "4": run_analysis,
-            "6": play_jeopardy,
+            "5": interactive_export_inputs,
+            "6": interactive_export_csv,
+            "7": play_jeopardy,
         }
         print(
-            "= Welcome to =\n"
-            "J E O P A R D Y\n"
-            "(Talon1024's Data Analyst project)\n"
+            "========== Welcome to ==========\n"
+            "        J E O P A R D Y\n"
+            "(Talon1024's project for the Codecademy Data Analyst course)\n"
             "1. Word search\n"
             "2. Calculate average value for questions containing the given "
             "words\n"
@@ -103,8 +134,9 @@ if __name__ == "__main__":
             "given words\n"
             "4. Run the built-in scripts and quit\n"
             "5. Export input data to Python list\n"
-            "6. PLAY\n"
-            "7. Quit\n")
+            "6. Export input data to CSV\n"
+            "7. PLAY\n"
+            "8. Quit\n")
         choice = input(">>> ")
         to_run = funcs.get(choice)
         if to_run: to_run()
