@@ -5,6 +5,7 @@ from sys import exit, stdin
 from import_export import get_inputs
 from processing import *
 from analysis import *
+import play
 
 pd.set_option('display.max_colwidth', -1)
 
@@ -72,6 +73,9 @@ def run_analysis():
     results = (*jeopardy[resser].groupby("air_year").count()["question"].items(),)
     print(results)
 
+def play_jeopardy():
+    return play.play(jeopardy)
+
 if __name__ == "__main__":
     print("Loading. Please wait...")
     input_data = get_inputs()
@@ -84,7 +88,10 @@ if __name__ == "__main__":
         exit(1)
     preprocess(jeopardy)
     if stdin.isatty():
-        funcs = {"4": run_analysis}
+        funcs = {
+            "4": run_analysis,
+            "6": play_jeopardy,
+        }
         print(
             "= Welcome to =\n"
             "J E O P A R D Y\n"
