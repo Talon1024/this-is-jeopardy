@@ -2,6 +2,7 @@
 import argparse
 import pandas as pd
 from sys import exit, stdin
+from display import *
 from import_export import *
 from processing import *
 from analysis import *
@@ -79,8 +80,42 @@ def play_jeopardy():
     return play.play(jeopardy)
 
 def interactive_word_search():
+    # This can be the answer to 7.2
     choice = shlex.split(input("Search for: "))
     resser = df_word_search(jeopardy, *choice)
+    data = jeopardy[resser].reset_index(drop=True)
+
+    output_cols = ["question", "answer"]
+    # Prompt for sorting
+    print("Sort by one or more columns? Available columns:")
+    print(*data.columns, sep=", ")
+    print(
+        "NOTE:\n- shlex module is used to separate column names"
+        "\n- Enter \"asc\" as a column name to sort in ascending order")
+    sort_by = shlex.split(input("Sort by: "))
+    if sort_by:
+        ascending = False
+        if "asc" in sort_by:
+            ascending = True
+        sort_by = list(filter(lambda el: el in data.columns, sort_by))
+        if len(sort_by) != 0:
+            # sort_key = None
+            # if len(sort_by) == 1 and (data[sort_by[0]].dtype == "int64" or
+            #         data[sort_by[0]].dtype == "float64"):
+            #     sort_key = lt
+            data = data.sort_values(by=sort_by, axis=0, ascending=ascending)
+            output_cols.extend(sort_by)
+
+    # Format for printing out
+    formatted_data = [output_cols]
+    for row in data.iterrows():
+        formatted_data.append([])
+        for col in output_cols:
+            formatted_data[-1].append(row[1][col])
+
+    # Display the data
+    view_parms = get_view_parms(80, len(output_cols))
+    print_data_table(view_parms, formatted_data)
 
 def interactive_average():
     choice = shlex.split(input("Search for: "))
@@ -114,31 +149,35 @@ if __name__ == "__main__":
         exit(1)
     preprocess(jeopardy)
     if stdin.isatty():
-        funcs = {
-            "1": interactive_word_search,
-            "2": interactive_average,
-            "3": interactive_unique_answers,
-            "4": run_analysis,
-            "5": interactive_export_inputs,
-            "6": interactive_export_csv,
-            "7": play_jeopardy,
-        }
-        print(
-            "========== Welcome to ==========\n"
-            "        J E O P A R D Y\n"
-            "(Talon1024's project for the Codecademy Data Analyst course)\n"
-            "1. Word search\n"
-            "2. Calculate average value for questions containing the given "
-            "words\n"
-            "3. Get number of unique answers for questions containing the "
-            "given words\n"
-            "4. Run the built-in scripts and quit\n"
-            "5. Export input data to Python list\n"
-            "6. Export input data to CSV\n"
-            "7. PLAY\n"
-            "8. Quit\n")
-        choice = input(">>> ")
-        to_run = funcs.get(choice)
-        if to_run: to_run()
+        main_menu = True
+        while main_menu != False:
+            funcs = {
+                "1": interactive_word_search,
+                "2": interactive_average,
+                "3": interactive_unique_answers,
+                "4": run_analysis,
+                "5": interactive_export_inputs,
+                "6": interactive_export_csv,
+                "7": play_jeopardy,
+            }
+            print(
+                "========== Welcome to ==========\n"
+                " (This is)    J E O P A R D Y !\n"
+                "(Talon1024's project for the Codecademy Data Analyst "
+                "course)\n"
+                "1. Word search\n"
+                "2. Calculate average value for questions containing the "
+                "given words\n"
+                "3. Get number of unique answers for questions containing "
+                "the given words\n"
+                "4. Run the built-in scripts\n"
+                "5. Export input data to Python list\n"
+                "6. Export input data to CSV\n"
+                "7. PLAY\n"
+                "8. Quit\n")
+            choice = input(">>> ")
+            to_run = funcs.get(choice)
+            if to_run: to_run()
+            else: main_menu = False
     else:
         run_analysis()

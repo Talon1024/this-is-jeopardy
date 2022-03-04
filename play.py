@@ -1,4 +1,5 @@
 from search import *
+from display import *
 
 # Play a round of Jeopardy!
 def play(jeopardy_data):
@@ -42,44 +43,14 @@ def play(jeopardy_data):
     # Get parameters related to the interface/view of the categories and questions
     # Terminals are typically 80 characters wide
     view_width = 80
-    def get_view_parms(view_width):
-        cell_width, expanded_cells = divmod(view_width, categories_to_show)
-        cell_width -= 1  # Add space for a pipe character
-        cell_template_str = "{{:^{}}}|"
-        cell_format_str = cell_template_str.format(cell_width)
-        # return {
-        #     "cell_width": cell_width,
-        #     "expanded_cells": expanded_cells,
-        #     "cell_format": cell_format_str
-        # }
-        return cell_width, expanded_cells, cell_format_str
-    view_parms = get_view_parms(view_width)
+    view_parms = get_view_parms(view_width, categories_to_show)
 
     # Print out the categories and money values for each question in the category
-    def print_category_headers(view_parms):
-        cell_width, expanded_cells, cell_format_str = view_parms
-        longest_category = max(categories, key=len)
-        lines, extra_line = divmod(len(longest_category), cell_width)
-        if extra_line > 0:
-            lines += 1
-
-        for line in range(lines):
-            extender = expanded_cells
-            for col in categories:
-                start = line * cell_width
-                end = start + cell_width
-                print(cell_format_str.format(col[start:end]), sep="", end="")
-                if extender > 0:
-                    print(" ", end="")
-                    extender -= 1
-            print()
-        print("-" * view_width)  # Separator between categories and monies
-    
-    # Print out the money values for each selected question
-    def print_question_values(view_parms):
-        cell_width, expanded_cells, cell_format_str = view_parms
+    def print_game_screen(view_parms):
+        game_screen = [categories]
+        # Print out the money values for each selected question
         for row in range(min_questions):
-            extender = expanded_cells
+            game_screen.append([])
             for col in categories:
                 answered = questions[col][row]["answered"]
                 if answered is None:
@@ -87,11 +58,8 @@ def play(jeopardy_data):
                     money_value = "${}".format(money_number)
                 else:
                     money_value = "✓" * 4 if answered else "x" * 4
-                print(cell_format_str.format(money_value), end="", sep="")
-                if extender > 0:
-                    print(" ", end="")
-                    extender -= 1
-            print("\n", "-" * view_width, sep="")
+                game_screen[-1].append(money_value)
+        print_data_table(view_parms, game_screen)
 
     # Prompt for category and money value
     wallet = 0
@@ -104,8 +72,7 @@ def play(jeopardy_data):
         if answers_given > max_answers:
             return False
 
-        print_category_headers(view_parms)
-        print_question_values(view_parms)
+        print_game_screen(view_parms)
         print("Your wallet: ${}".format(wallet))
 
         # Prompt for category
