@@ -10,7 +10,7 @@ Here's a list of my work on each task and sub-task listed in the Codecademy proj
 
 3.1: [search.py](https://github.com/Talon1024/this-is-jeopardy/blob/c1eeb6f0c387f8dd53c844f1d959dcf4aa6d75da/search.py)  
 3.2: [processing.py, line 4-17](https://github.com/Talon1024/this-is-jeopardy/blob/2ba628453924b19c9f5bd53e8fc6926c0f8e66ba/processing.py#L4)  
-4.2: [processing.py, line 19-37](https://github.com/Talon1024/this-is-jeopardy/blob/2ba628453924b19c9f5bd53e8fc6926c0f8e66ba/processing.py#L19)  
+4: [processing.py, line 19-37](https://github.com/Talon1024/this-is-jeopardy/blob/2ba628453924b19c9f5bd53e8fc6926c0f8e66ba/processing.py#L19)  
 5.1: [processing.py, line 40-48](https://github.com/Talon1024/this-is-jeopardy/blob/2ba628453924b19c9f5bd53e8fc6926c0f8e66ba/processing.py#L40)  
 5.2: [processing.py, line 69](https://github.com/Talon1024/this-is-jeopardy/blob/2ba628453924b19c9f5bd53e8fc6926c0f8e66ba/processing.py#L69)  
 6: [analysis.py, line 17-25](https://github.com/Talon1024/this-is-jeopardy/blob/2ba628453924b19c9f5bd53e8fc6926c0f8e66ba/analysis.py#L17)  
