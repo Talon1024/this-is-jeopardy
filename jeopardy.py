@@ -81,7 +81,9 @@ def play_jeopardy():
 
 def interactive_word_search():
     choice = shlex.split(input("Search for: "))
-    resser = df_word_search(jeopardy, *choice)
+    print("Available columns:", *jeopardy.columns, sep=", ")
+    col_choice = input("In column (default=question):") or "question"
+    resser = df_word_search(jeopardy, *choice, col=col_choice)
     data = jeopardy[resser]
 
     output_cols = ["question", "answer"]
