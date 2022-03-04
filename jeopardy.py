@@ -80,10 +80,9 @@ def play_jeopardy():
     return play.play(jeopardy)
 
 def interactive_word_search():
-    # This can be the answer to 7.2
     choice = shlex.split(input("Search for: "))
     resser = df_word_search(jeopardy, *choice)
-    data = jeopardy[resser].reset_index(drop=True)
+    data = jeopardy[resser]
 
     output_cols = ["question", "answer"]
     # Prompt for sorting
@@ -116,6 +115,12 @@ def interactive_word_search():
     # Display the data
     view_parms = get_view_parms(80, len(output_cols))
     print_data_table(view_parms, formatted_data)
+    # Display the value counts
+    for sort_col in sort_by:
+        print("{}:".format(sort_col))
+        print(data[sort_col].value_counts().sort_index(
+            ascending=ascending
+        ))
 
 def interactive_average():
     choice = shlex.split(input("Search for: "))
@@ -174,7 +179,7 @@ if __name__ == "__main__":
                 "5. Export input data to Python list\n"
                 "6. Export input data to CSV\n"
                 "7. PLAY\n"
-                "8. Quit\n")
+                "Anything else will quit.\n")
             choice = input(">>> ")
             to_run = funcs.get(choice)
             if to_run: to_run()
