@@ -10,7 +10,7 @@ from search import *
 import play
 import shlex
 
-pd.set_option('display.max_colwidth', -1)
+pd.set_option('display.max_colwidth', None)
 
 
 # =============================================================================
