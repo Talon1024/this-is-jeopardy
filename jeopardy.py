@@ -144,6 +144,25 @@ def interactive_export_csv():
         choice = None
     export_inputs_csv(input_data, choice)
 
+def interactive_category_search():
+    pd.set_option("display.max_rows", None)
+    print("Show the rounds for all the questions in each category")
+    print("Enter a category name, 'q' to quit, or nothing to list all "
+          "categories")
+    choice = ""
+    while choice != "q":
+        choice = input(">>> ")
+        if choice == "":
+            print(jeopardy.category.value_counts())
+        elif choice == "q":
+            pass
+        else:
+            resdf = jeopardy[jeopardy.category == choice]
+            if not all(resdf.shape):
+                print("Category", choice, "does not exist")
+                continue
+            print(resdf["round"].value_counts())
+
 if __name__ == "__main__":
     print("Loading. Please wait...")
     input_data = get_inputs()
@@ -166,6 +185,7 @@ if __name__ == "__main__":
                 "5": interactive_export_inputs,
                 "6": interactive_export_csv,
                 "7": play_jeopardy,
+                "8": interactive_category_search,
             }
             print(
                 "========== Welcome to ==========\n"
@@ -181,6 +201,7 @@ if __name__ == "__main__":
                 "5. Export input data to Python list\n"
                 "6. Export input data to CSV\n"
                 "7. PLAY\n"
+                "8. Show rounds for all questions in a category\n"
                 "Anything else will quit.\n")
             choice = input(">>> ")
             to_run = funcs.get(choice)

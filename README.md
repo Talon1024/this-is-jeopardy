@@ -4,6 +4,8 @@ This is my work for the "This is Jeopardy!" Codecademy project. There were many 
 
 You will notice that I wrote functions to load the input data (import_export.py), and I put the input data in a separate CSV file (inputs.csv) so that it can be more easily maintained.
 
+I also made it interactive. You can even play a round of Jeopardy! as if you were a contestant on the show.
+
 You will need to download jeopardy.csv from the Codecademy "This is Jeopardy!" project page.
 
 Here's a list of my work on each task and sub-task listed in the Codecademy project:
@@ -15,6 +17,6 @@ Here's a list of my work on each task and sub-task listed in the Codecademy proj
 5.2: [processing.py, line 69](https://github.com/Talon1024/this-is-jeopardy/blob/2ba628453924b19c9f5bd53e8fc6926c0f8e66ba/processing.py#L69)  
 6: [analysis.py, line 17-25](https://github.com/Talon1024/this-is-jeopardy/blob/2ba628453924b19c9f5bd53e8fc6926c0f8e66ba/analysis.py#L17)  
 7.1.1: [processing.py, line 71](https://github.com/Talon1024/this-is-jeopardy/blob/2ba628453924b19c9f5bd53e8fc6926c0f8e66ba/processing.py#L71)  
-7.1.2: Can be achieved by running jeopardy.py, selecting "Word search" at the main menu, sort by `air_year asc`  
-7.2: [7.2.ipynb](https://github.com/Talon1024/this-is-jeopardy/blob/master/7.2.ipynb)  
+7.1.2: Can be achieved by running jeopardy.py, selecting "Word search" at the main menu, searching for "Computer", and sort by `air_year asc`  
+7.2: [jeopardy.py, line 147-164](https://github.com/Talon1024/this-is-jeopardy/blob/master/jeopardy.py#L147)  
 7.3: [play.py](https://github.com/Talon1024/this-is-jeopardy/blob/fde0b0a14985c721350becf0b3d86c5768972faa/play.py)  
